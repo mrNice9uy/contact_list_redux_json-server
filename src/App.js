@@ -1,24 +1,35 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import { BrowserRouter } from "react-router-dom";
+import MainScreen from "./components/MainScreen/MainScreen";
+import "antd/dist/antd.min.css";
+import "./App.scss";
 
 function App() {
+  const [contacts, setContacts] = useState([
+    {
+      id: "1",
+      name: "Ann",
+      email: "ann@gmail.com",
+    },
+    {
+      id: "2",
+      name: "Bill",
+      email: "bill@gmail.com",
+    },
+    {
+      id: "3",
+      name: "Jim",
+      email: "jim@gmail.com",
+    },
+  ]);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <div className="app-wrapper">
+        <div className="app-wrapper-content">
+          <MainScreen contacts={contacts} setContacts={setContacts} />
+        </div>
+      </div>
+    </BrowserRouter>
   );
 }
 
