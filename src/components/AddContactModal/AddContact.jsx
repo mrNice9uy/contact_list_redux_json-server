@@ -2,7 +2,13 @@ import { Button, Divider, Form, Input, Modal } from "antd";
 import React, { useCallback } from "react";
 
 const AddContact = (props) => {
-  const { modalVisibility, setModalVisibility, submitCallback } = props;
+  const {
+    contacts,
+    setContacts,
+    modalVisibility,
+    setModalVisibility,
+    submitCallback,
+  } = props;
   const [form] = Form.useForm();
 
   const formItemLayout = {

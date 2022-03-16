@@ -1,5 +1,6 @@
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { Button, Divider, Table, Space } from "antd";
+import api from "../../api/contacts";
 import React, { useState } from "react";
 import AddContact from "../AddContactModal/AddContact";
 
@@ -35,7 +36,7 @@ const ContactList = (props) => {
     },
   ];
 
-  const handleAddUser = (options) => {
+  const handleAddContact = (options) => {
     const { name, email } = options;
 
     const contactData = {
@@ -51,9 +52,10 @@ const ContactList = (props) => {
     <div id="contactList">
       <AddContact
         contacts={contacts}
+        setContacts={setContacts}
         modalVisibility={modalVisibility}
         setModalVisibility={setModalVisibility}
-        submitCallback={handleAddUser}
+        submitCallback={handleAddContact}
       />
       <Button onClick={() => setModalVisibility(true)}>Add Contact</Button>
       <Divider />
