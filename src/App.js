@@ -1,34 +1,27 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { BrowserRouter } from "react-router-dom";
-import api from "./api/contacts";
 import MainScreen from "./components/MainScreen/MainScreen";
 import "antd/dist/antd.min.css";
 import "./App.scss";
 
 function App() {
-  const [contacts, setContacts] = useState([]);
-
-  //Retrive contacts
-  const retriveContacts = async () => {
-    const response = await api.get("/contacts");
-    return response.data;
-  };
-
+  /*const dispatch = useDispatch();
   useEffect(() => {
-    const getAllContacts = async () => {
-      const allContacts = await retriveContacts();
-      if (allContacts) setContacts(allContacts);
-    };
-    getAllContacts();
-  }, []);
-
-  //useEffect(() => {}, [contacts]);
+    dispatch({
+      type: ACTIONS.SET_CONTACTS,
+      payload: {
+        id: 1,
+        name: "qwe",
+        email: "qwr@dg.com",
+      },
+    });
+  });*/
 
   return (
     <BrowserRouter>
       <div className="app-wrapper">
         <div className="app-wrapper-content">
-          <MainScreen contacts={contacts} setContacts={setContacts} />
+          <MainScreen />
         </div>
       </div>
     </BrowserRouter>

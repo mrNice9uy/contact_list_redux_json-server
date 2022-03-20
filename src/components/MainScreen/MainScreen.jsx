@@ -1,32 +1,65 @@
 import { Layout, Menu } from "antd";
-import { Link, Route, Routes } from "react-router-dom";
-import React, { useState } from "react";
+import { isEmpty } from "lodash";
+import { Link, Route, Routes, useLocation } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+
 import ContactList from "../Contacts/ContactList";
 import Header from "../Header/Header";
 import Profile from "../Profile/Profile";
+
 import classes from "./MainScreen.module.scss";
+import Login from "../LogIn/Login";
+import RegistrationForm from "../LogIn/Register";
+import { getContacts } from "../../store/actions/contacts";
 
 const MainScreen = (props) => {
-  const { contacts, setContacts } = props;
   const { Content, Sider } = Layout;
-  const [title, setTitle] = useState("Profile");
-  const [btnText, setBtnText] = useState(true);
+  
+  const state = useSelector((state) => state);
+  const dispatch = useDispatch();
+  console.log(state);  
+  const [title, setTitle] = useState("");
+  const location = useLocation();
+
+  useEffect(() => {
+    switch (location.pathname) {
+      case "/profile": {
+        return setTitle("Profile");
+      }
+      case "/contacts": {
+        return setTitle("Contacts");
+      }
+      case "/register": {
+        return setTitle("New user");
+      }
+      default:
+        return setTitle("Log In");
+    }
+  }, [location.pathname]);
+
+  useEffect(() => {
+    if(!isEmpty(state.user)) {
+      dispatch(getContacts())
+    }
+  },[dispatch, state.user])
 
   return (
     <Layout style={{ minHeight: "100vh" }}>
       <Sider>
         <Menu theme="dark" defaultSelectedKeys={["profile"]} mode="inline">
-          <Menu.Item key="profile" onClick={() => setTitle("Profile")}>
+          <Menu.Item key="profile">
             Profile
+            {/*defaultSelectedKeys={["profile"]}*/}
             <Link to="/profile" />
           </Menu.Item>
-          <Menu.Item
-            disabled={!btnText}
-            key="contacts"
-            onClick={() => setTitle("Contacts")}
-          >
+          <Menu.Item disabled={isEmpty(state.user)} key="contacts">
             Contacts
             <Link to="/contacts" />
+          </Menu.Item>
+          <Menu.Item key="login" style={{ display: "none" }}>
+            Log In
+            <Link to="/" />
           </Menu.Item>
         </Menu>
       </Sider>
@@ -34,8 +67,7 @@ const MainScreen = (props) => {
         <Header
           className={classes.header}
           title={title}
-          btnText={btnText}
-          setBtnText={setBtnText}
+          user={state.user}
         />
         <Content
           style={{
@@ -46,13 +78,10 @@ const MainScreen = (props) => {
           }}
         >
           <Routes>
+            <Route path="/" element={<Login />} />
+            <Route path="/register" element={<RegistrationForm />} />
             <Route path="/profile" element={<Profile />} />
-            <Route
-              path="/contacts"
-              element={
-                <ContactList contacts={contacts} setContacts={setContacts} />
-              }
-            />
+            <Route path="/contacts" element={<ContactList />} />
           </Routes>
         </Content>
       </Layout>

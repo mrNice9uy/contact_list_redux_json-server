@@ -1,5 +1,5 @@
-import axios from "axios";
+//import axios from 'axios';
 
-export default axios.create({
-  baseURL: "http://localhost:3006/",
-});
+import api from "./setupAPI";
+
+export const getContacts = () => api.get("/contacts");

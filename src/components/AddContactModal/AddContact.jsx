@@ -3,8 +3,6 @@ import React, { useCallback } from "react";
 
 const AddContact = (props) => {
   const {
-    contacts,
-    setContacts,
     modalVisibility,
     setModalVisibility,
     submitCallback,
