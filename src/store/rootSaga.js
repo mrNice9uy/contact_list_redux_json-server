@@ -1,7 +1,12 @@
 import { all, call, put, takeEvery } from "redux-saga/effects";
 import { ACTIONS } from "./actions/actions";
 import { setConnectionInProgressState } from "./actions/contacts";
-import { addContact, deleteContactById, getContacts } from "../api/contacts";
+import {
+  addContact,
+  deleteContactById,
+  editContactById,
+  getContacts,
+} from "../api/contacts";
 
 function* fetchContacts(action) {
   try {
@@ -64,10 +69,37 @@ function* deleteContact(action) {
   yield put(setConnectionInProgressState(false));
 }
 
+function* editContact(action) {
+  const { contactId, name, email } = action.payload;
+  const contactData = {
+    name: name,
+    email: email,
+  };
+
+  try {
+    yield put(setConnectionInProgressState(true));
+    yield call(editContactById, contactId, contactData);
+    const reply = yield call(getContacts, {});
+    yield put({
+      type: ACTIONS.GET_CONTACT_SUCCESS,
+      payload: reply,
+    });
+  } catch (e) {
+    yield put({
+      type: ACTIONS.GET_CONTACT_FAIL,
+      payload: {
+        message: e.message,
+      },
+    });
+  }
+  yield put(setConnectionInProgressState(false));
+}
+
 export function* rootSaga() {
   yield all([
     takeEvery(ACTIONS.GET_CONTACT, fetchContacts),
     takeEvery(ACTIONS.ADD_CONTACT, addContactData),
     takeEvery(ACTIONS.DELETE_CONTACT, deleteContact),
+    takeEvery(ACTIONS.UPDATE_CONTACT, editContact),
   ]);
 }

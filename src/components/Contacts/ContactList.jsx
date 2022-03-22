@@ -1,30 +1,31 @@
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
-import { Button, Divider, Space, Table, Popconfirm, message } from "antd";
+import { Button, Divider, Table, Popconfirm, message } from "antd";
 import PropTypes from "prop-types";
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { connect, useDispatch } from "react-redux";
-//import { connect } from "react-redux";
 import AddContact from "../AddContactModal/AddContact";
+import EditContact from "../EditContactModal/EditContact";
 import Spinner from "../Spinner/Spinner";
 import {
   addContact,
   deleteContactById,
+  updateContactById,
   getContacts,
 } from "../../store/actions/contacts";
 import { CONTACTS_COLUMNS } from "../../constants/columns";
 
 const ContactList = (props) => {
-  console.log("props: ", props);
   const { contactList, isConnectionInProgress } = props;
-  console.log("sfsfd", contactList);
   const [modalVisibility, setModalVisibility] = useState(false);
+  const [editModalVisibility, setContactEditModalVisibility] = useState(false);
+  const [editingKey, setEditingKey] = useState(null);
   const dispatch = useDispatch();
+  
   useEffect(() => {
     dispatch(getContacts());
   }, [dispatch]);
 
   const setNewId = () => {
-    debugger;
     let numArr = [];
     contactList.forEach((item) => numArr.push(item.id));
     return Math.max.apply(null, numArr) + 1;
@@ -37,9 +38,16 @@ const ContactList = (props) => {
       name,
       email,
     };
-    console.log(contactData);
     dispatch(addContact(contactData));
   };
+
+  const onEditContact = useCallback(
+    (item) => {
+      setEditingKey(item.id);
+      setContactEditModalVisibility(true);
+    },
+    [setContactEditModalVisibility]
+  );
 
   const deleteRecord = useCallback(
     (id) => {
@@ -48,73 +56,106 @@ const ContactList = (props) => {
     [dispatch]
   );
 
-  const confirm = useCallback((id) => {
-    message.success('Deleted successfully');
-    deleteRecord(id)
-  }, [deleteRecord]);
+  const confirm = useCallback(
+    (id) => {
+      message.success("Deleted successfully");
+      deleteRecord(id);
+    },
+    [deleteRecord]
+  );
 
   const cancel = () => {
-    message.error('Canceled');
-  }
-
-  const editRecord = useCallback((id) => {
-    debugger;
-    console.log("edit:", id);
-    //setModalVisibility(true)
-  },[])
+    message.error("Canceled");
+  };
 
   const renderActionBtns = useCallback(
-    (id) => {
-      debugger
+    (item) => {
       return (
-        <Space>
-          <Button icon={<EditOutlined onClick={()=>editRecord(id)} />}>
+        <>
+          <Button
+            key={item.id}
+            icon={<EditOutlined />}
+            onClick={() => onEditContact(item)}
+          >
             Edit
           </Button>
-          <Popconfirm title='Are you sure?' okText='Yes' cancelText='No' onConfirm={()=>confirm(id)} onCancel={cancel}>
+          <Popconfirm
+            title="Are you sure?"
+            okText="Yes"
+            cancelText="No"
+            onConfirm={() => confirm(item.id)}
+            onCancel={cancel}
+          >
             <Button
-              style={{ background: "#ff4d4f", border: "none" }}
+              style={{ background: "#ff4d4f", border: "none", marginLeft: "5px" }}
               type="primary"
               icon={<DeleteOutlined />}
-              
             >
               Delete
             </Button>
           </Popconfirm>
-        </Space>
+        </>
       );
     },
-    [confirm, editRecord]
+    [confirm, onEditContact]
   );
 
-  const generatedData = useMemo(() => {
-    return contactList?.map(({ key, id, name, email }) => {
-      const deleteBtn = renderActionBtns(id);
-      return {
-        key,
-        id,
-        name,
-        email,
-        action: deleteBtn,
-      };
-    });
-  }, [contactList, renderActionBtns]);
+  const prepareModalData = (data) => {
+    if (data.length !== 0) {
+      const contactData = contactList.find(item => item.id === editingKey);
+      return contactData;
+    }
+  };
+
+  const renderData = (data) => {
+    if (!data) {
+      return null;
+    }
+
+    return data.map((item) => ({
+      ...item,
+      action: renderActionBtns(item),
+    }));
+  };
+
+  const editData = (data) => {
+    const contactId = editingKey;
+    const updatetedContactData = {
+      contactId: contactId,
+      ...data,
+    };
+    
+    dispatch(updateContactById(updatetedContactData));
+    setContactEditModalVisibility(false);
+  };
 
   return (
-    <Spinner spinning={isConnectionInProgress}>
+    <>
       <AddContact
         modalVisibility={modalVisibility}
         setModalVisibility={setModalVisibility}
         submitCallback={handleAddContact}
       />
-      <Button onClick={() => setModalVisibility(true)}>Add Contact</Button>
-      <Divider />
-      <Table
-        rowKey="id"
-        columns={CONTACTS_COLUMNS}
-        dataSource={generatedData}
-      />
-    </Spinner>
+      <Spinner spinning={isConnectionInProgress}>
+        <Button onClick={() => setModalVisibility(true)}>Add Contact</Button>
+        <Divider />
+
+        <EditContact
+         title='Edit contact'
+         isShown={editModalVisibility}
+         submitCallback={editData}
+         contactData={prepareModalData(contactList)}
+         editingKey={editingKey}
+         setModalVisibility={setContactEditModalVisibility}
+        />
+
+        <Table
+          rowKey="id"
+          columns={CONTACTS_COLUMNS}
+          dataSource={renderData(contactList)}
+        />
+      </Spinner>
+    </>
   );
 };
 
@@ -134,11 +175,3 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps)(ContactList);
-
-/* try w/ out dispatch
-
-export default connect(mapStateToProps, {
-  getContacts,
-  setContacts
-})(ContactList); 
-*/
