@@ -1,9 +1,10 @@
 import { ACTIONS } from "../actions/actions.js";
 
 const initialState = {
+  isConnectionInProgress: false,
   contacts: [
     {
-      id: null,
+      id: 0,
       name: "",
       email: "",
     },
@@ -21,6 +22,11 @@ export const contactReducer = (state = initialState, action) => {
     }
     case ACTIONS.SET_CONTACTS:
       return { ...state, contactList: action.payload };
+    case ACTIONS.SET_CONNECTION_IN_PROGRESS_STATE:
+      return {
+        ...state,
+        isConnectionInProgress: action.isConnectionInProgress,
+      };
     default:
       return state;
   }

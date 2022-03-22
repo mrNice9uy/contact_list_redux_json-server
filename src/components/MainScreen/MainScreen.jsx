@@ -2,7 +2,7 @@ import { Layout, Menu } from "antd";
 import { isEmpty } from "lodash";
 import { Link, Route, Routes, useLocation } from "react-router-dom";
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 import ContactList from "../Contacts/ContactList";
 import Header from "../Header/Header";
@@ -11,14 +11,12 @@ import Profile from "../Profile/Profile";
 import classes from "./MainScreen.module.scss";
 import Login from "../LogIn/Login";
 import RegistrationForm from "../LogIn/Register";
-import { getContacts } from "../../store/actions/contacts";
 
 const MainScreen = (props) => {
   const { Content, Sider } = Layout;
-  
+
   const state = useSelector((state) => state);
-  const dispatch = useDispatch();
-  console.log(state);  
+  console.log(state);
   const [title, setTitle] = useState("");
   const location = useLocation();
 
@@ -38,19 +36,12 @@ const MainScreen = (props) => {
     }
   }, [location.pathname]);
 
-  useEffect(() => {
-    if(!isEmpty(state.user)) {
-      dispatch(getContacts())
-    }
-  },[dispatch, state.user])
-
   return (
     <Layout style={{ minHeight: "100vh" }}>
       <Sider>
         <Menu theme="dark" defaultSelectedKeys={["profile"]} mode="inline">
-          <Menu.Item key="profile">
+          <Menu.Item disabled={isEmpty(state.user)} key="profile">
             Profile
-            {/*defaultSelectedKeys={["profile"]}*/}
             <Link to="/profile" />
           </Menu.Item>
           <Menu.Item disabled={isEmpty(state.user)} key="contacts">
@@ -64,11 +55,7 @@ const MainScreen = (props) => {
         </Menu>
       </Sider>
       <Layout>
-        <Header
-          className={classes.header}
-          title={title}
-          user={state.user}
-        />
+        <Header className={classes.header} title={title} user={state.user} />
         <Content
           style={{
             margin: "24px 16px",

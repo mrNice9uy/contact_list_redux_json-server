@@ -46,6 +46,7 @@ const AddContact = (props) => {
 
   const onFinish = useCallback(
     (values) => {
+      debugger;
       setModalVisibility(false);
       submitCallback(values);
       form.resetFields();

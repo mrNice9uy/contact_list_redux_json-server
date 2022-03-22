@@ -1,16 +1,15 @@
 import { all, call, put, takeEvery } from "redux-saga/effects";
 import { ACTIONS } from "./actions/actions";
-import { getContacts } from "../api/contacts";
+import { setConnectionInProgressState } from "./actions/contacts";
+import { addContact, deleteContactById, getContacts } from "../api/contacts";
 
 function* fetchContacts(action) {
   try {
-    debugger;
-    const contacts = yield call(getContacts, action.payload); //.id);
+    yield put(setConnectionInProgressState(true));
+    const contacts = yield call(getContacts, action.payload);
     yield put({
       type: ACTIONS.GET_CONTACT_SUCCESS,
-      payload: contacts /* {
-        data: contacts,
-      },*/,
+      payload: contacts,
     });
   } catch (e) {
     yield put({
@@ -20,8 +19,55 @@ function* fetchContacts(action) {
       },
     });
   }
+  yield put(setConnectionInProgressState(false));
+}
+
+function* addContactData(action) {
+  const contactData = action.payload;
+  try {
+    yield put(setConnectionInProgressState(true));
+    yield call(addContact, contactData);
+    const reply = yield call(getContacts, action.payload);
+    yield put({
+      type: ACTIONS.GET_CONTACT_SUCCESS,
+      payload: reply,
+    });
+  } catch (e) {
+    yield put({
+      type: ACTIONS.GET_CONTACT_FAIL,
+      payload: {
+        message: e.message,
+      },
+    });
+  }
+  yield put(setConnectionInProgressState(false));
+}
+
+function* deleteContact(action) {
+  const contactId = action.payload;
+  try {
+    yield put(setConnectionInProgressState(true));
+    yield call(deleteContactById, contactId);
+    const reply = yield call(getContacts, {});
+    yield put({
+      type: ACTIONS.GET_CONTACT_SUCCESS,
+      payload: reply,
+    });
+  } catch (e) {
+    yield put({
+      type: ACTIONS.GET_CONTACT_FAIL,
+      payload: {
+        message: e.message,
+      },
+    });
+  }
+  yield put(setConnectionInProgressState(false));
 }
 
 export function* rootSaga() {
-  yield all([takeEvery(ACTIONS.GET_CONTACT, fetchContacts)]);
+  yield all([
+    takeEvery(ACTIONS.GET_CONTACT, fetchContacts),
+    takeEvery(ACTIONS.ADD_CONTACT, addContactData),
+    takeEvery(ACTIONS.DELETE_CONTACT, deleteContact),
+  ]);
 }

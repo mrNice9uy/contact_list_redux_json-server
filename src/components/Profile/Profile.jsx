@@ -7,7 +7,7 @@ const Profile = () => {
   console.log('userState: ', userState);
   return (
     <div id="profile" className="profile">
-      <h3>Hello, {`${userState?.user.email}`}</h3>
+      <h3>Hello, {`${userState?.user?.email}`}</h3>
     </div>
   );
 };

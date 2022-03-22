@@ -5,18 +5,6 @@ import "antd/dist/antd.min.css";
 import "./App.scss";
 
 function App() {
-  /*const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch({
-      type: ACTIONS.SET_CONTACTS,
-      payload: {
-        id: 1,
-        name: "qwe",
-        email: "qwr@dg.com",
-      },
-    });
-  });*/
-
   return (
     <BrowserRouter>
       <div className="app-wrapper">
