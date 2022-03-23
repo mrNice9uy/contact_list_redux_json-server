@@ -1,5 +1,5 @@
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
-import { Button, Divider, Table, Popconfirm, message } from "antd";
+import { Button, Divider, Input, Popconfirm, Table, message } from "antd";
 import PropTypes from "prop-types";
 import React, { useCallback, useEffect, useState } from "react";
 import { connect, useDispatch } from "react-redux";
@@ -13,17 +13,34 @@ import {
   getContacts,
 } from "../../store/actions/contacts";
 import { CONTACTS_COLUMNS } from "../../constants/columns";
+import classes from "./Contacrs.module.scss";
+
+const mapStateToProps = (state) => ({
+  contactList: state.contacts.contacts,
+  isConnectionInProgress: state.contacts.isConnectionInProgress,
+});
 
 const ContactList = (props) => {
   const { contactList, isConnectionInProgress } = props;
+  const { Search } = Input;
   const [modalVisibility, setModalVisibility] = useState(false);
   const [editModalVisibility, setContactEditModalVisibility] = useState(false);
   const [editingKey, setEditingKey] = useState(null);
+  const [search, setSearch] = useState("");
+  const [filteredData, setFilteredData] = useState([]);
   const dispatch = useDispatch();
-  
+
   useEffect(() => {
     dispatch(getContacts());
   }, [dispatch]);
+
+  useEffect(() => {
+    setFilteredData(
+      contactList.filter((contact) =>
+        contact.name.toLowerCase().includes(search.toLowerCase())
+      )
+    );
+  }, [contactList, search]);
 
   const setNewId = () => {
     let numArr = [];
@@ -32,6 +49,7 @@ const ContactList = (props) => {
   };
 
   const handleAddContact = (options) => {
+    debugger;
     const { name, email } = options;
     const contactData = {
       id: setNewId(),
@@ -87,7 +105,11 @@ const ContactList = (props) => {
             onCancel={cancel}
           >
             <Button
-              style={{ background: "#ff4d4f", border: "none", marginLeft: "5px" }}
+              style={{
+                background: "#ff4d4f",
+                border: "none",
+                marginLeft: "5px",
+              }}
               type="primary"
               icon={<DeleteOutlined />}
             >
@@ -102,7 +124,7 @@ const ContactList = (props) => {
 
   const prepareModalData = (data) => {
     if (data.length !== 0) {
-      const contactData = contactList.find(item => item.id === editingKey);
+      const contactData = contactList.find((item) => item.id === editingKey);
       return contactData;
     }
   };
@@ -124,7 +146,7 @@ const ContactList = (props) => {
       contactId: contactId,
       ...data,
     };
-    
+
     dispatch(updateContactById(updatetedContactData));
     setContactEditModalVisibility(false);
   };
@@ -136,23 +158,32 @@ const ContactList = (props) => {
         setModalVisibility={setModalVisibility}
         submitCallback={handleAddContact}
       />
-      <Spinner spinning={isConnectionInProgress}>
+      <div className={classes.searchBarWrapper}>
         <Button onClick={() => setModalVisibility(true)}>Add Contact</Button>
-        <Divider />
+        <Search
+          allowClear
+          style={{ width: "40%" }}
+          defaultValue=""
+          onChange={(e) => setSearch(e.target.value)}
+        />
+      </div>
 
+      <Divider />
+
+      <Spinner spinning={isConnectionInProgress}>
         <EditContact
-         title='Edit contact'
-         isShown={editModalVisibility}
-         submitCallback={editData}
-         contactData={prepareModalData(contactList)}
-         editingKey={editingKey}
-         setModalVisibility={setContactEditModalVisibility}
+          title="Edit contact"
+          isShown={editModalVisibility}
+          submitCallback={editData}
+          contactData={prepareModalData(contactList)}
+          editingKey={editingKey}
+          setModalVisibility={setContactEditModalVisibility}
         />
 
         <Table
           rowKey="id"
           columns={CONTACTS_COLUMNS}
-          dataSource={renderData(contactList)}
+          dataSource={renderData(filteredData)}
         />
       </Spinner>
     </>
@@ -168,10 +199,5 @@ ContactList.propTypes = {
     })
   ).isRequired,
 };
-
-const mapStateToProps = (state) => ({
-  contactList: state.contacts.contacts,
-  isConnectionInProgress: state.contacts.isConnectionInProgress,
-});
 
 export default connect(mapStateToProps)(ContactList);

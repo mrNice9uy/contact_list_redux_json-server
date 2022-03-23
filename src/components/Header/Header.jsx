@@ -4,6 +4,7 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { clearUser } from "../../store/actions/user";
+import { clearContact } from '../../store/actions/contacts';
 import classes from "./Header.module.scss";
 
 const Header = (props) => {
@@ -11,6 +12,7 @@ const Header = (props) => {
   const dispatch = useDispatch();
   const navigate= useNavigate();
   const toggle = () => {
+    dispatch(clearContact());
     dispatch(clearUser());
     navigate('/');
   };

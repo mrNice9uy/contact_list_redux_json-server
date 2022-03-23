@@ -20,6 +20,13 @@ export const updateContactById = (contactId) => ({
   payload: contactId,
 });
 
+export const clearContact = () => {
+  return {
+    type: ACTIONS.CLEAR_CONTACT,
+    payload: [],
+  };
+};
+
 export const setConnectionInProgressState = (state) => ({
   type: ACTIONS.SET_CONNECTION_IN_PROGRESS_STATE,
   isConnectionInProgress: state,

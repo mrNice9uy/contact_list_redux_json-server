@@ -1,12 +1,10 @@
 import { Button, Divider, Form, Input, Modal } from "antd";
+import PropTypes from "prop-types";
 import React, { useCallback } from "react";
 
 const AddContact = (props) => {
-  const {
-    modalVisibility,
-    setModalVisibility,
-    submitCallback,
-  } = props;
+  const { modalVisibility, setModalVisibility, submitCallback } = props;
+
   const [form] = Form.useForm();
 
   const formItemLayout = {
@@ -93,6 +91,12 @@ const AddContact = (props) => {
       </Form>
     </Modal>
   );
+};
+
+AddContact.propTypes = {
+  modalVisibility: PropTypes.bool.isRequired,
+  submitCallback: PropTypes.func.isRequired,
+  setModalVisibility: PropTypes.func.isRequired,
 };
 
 export default AddContact;

@@ -1,8 +1,13 @@
 import { Button, Divider, Form, Input, Modal } from "antd";
 import { isEmpty, pick } from "lodash";
+import PropTypes from "prop-types";
 import React, { useCallback, useEffect } from "react";
 
-import { FORM_ITEM_LAYOUT, BUTTON_ITEM_LAYOUT, CONTACT_MODAL_RULES } from '../../constants/constants';
+import {
+  FORM_ITEM_LAYOUT,
+  BUTTON_ITEM_LAYOUT,
+  CONTACT_MODAL_RULES,
+} from "../../constants/constants";
 
 const EditContact = (props) => {
   const {
@@ -11,16 +16,15 @@ const EditContact = (props) => {
     submitCallback,
     contactData = {},
     setModalVisibility,
-  } = props;  
+  } = props;
 
   const [form] = Form.useForm();
 
   useEffect(() => {
-    if(!isEmpty(contactData)) {
-      form.setFieldsValue(pick(contactData, ['name', 'email']));
+    if (!isEmpty(contactData)) {
+      form.setFieldsValue(pick(contactData, ["name", "email"]));
     }
-  })
-  
+  });
 
   const onFinish = useCallback(
     (values) => {
@@ -47,11 +51,7 @@ const EditContact = (props) => {
         <Form.Item label="Name" name="name" rules={CONTACT_MODAL_RULES.name}>
           <Input />
         </Form.Item>
-        <Form.Item
-          label="Email"
-          name="email"
-          rules={CONTACT_MODAL_RULES.email}
-        >
+        <Form.Item label="Email" name="email" rules={CONTACT_MODAL_RULES.email}>
           <Input />
         </Form.Item>
         <Divider />
@@ -71,6 +71,18 @@ const EditContact = (props) => {
       </Form>
     </Modal>
   );
+};
+
+EditContact.propTypes = {
+  title: PropTypes.string.isRequired,
+  isShown: PropTypes.bool.isRequired,
+  submitCallback: PropTypes.func.isRequired,
+  setModalVisibility: PropTypes.func.isRequired,
+  contactData: PropTypes.shape({
+    id: PropTypes.number,
+    name: PropTypes.string,
+    email: PropTypes.string,
+  }),
 };
 
 export default EditContact;

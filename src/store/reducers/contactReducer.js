@@ -14,6 +14,9 @@ export const contactReducer = (state = initialState, action) => {
         contacts,
       };
     }
+    case ACTIONS.CLEAR_CONTACT: {
+      return initialState;
+    }
     case ACTIONS.SET_CONNECTION_IN_PROGRESS_STATE:
       return {
         ...state,
