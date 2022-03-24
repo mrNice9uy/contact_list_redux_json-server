@@ -1,5 +1,4 @@
 {
-	"parser": "babel-eslint",
 	"extends": ["react-app", "react-app/jest", "prettier"],
 	"rules": {
 		"import/order": [
