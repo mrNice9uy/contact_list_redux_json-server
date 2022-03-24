@@ -119,7 +119,6 @@ const Profile = props => {
 					</Button>
 				</Form.Item>
 			</Form>
-			);
 		</Spinner>
 	);
 };
