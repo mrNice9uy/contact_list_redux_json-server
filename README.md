@@ -48,7 +48,7 @@ You don't have to ever use `eject`. The curated feature set is suitable for smal
 
 ## To run the app
 
-1. Clone or dowload the repository
+1. Clone or download the repository
 
 2. From the project folder install all dependencies via terminal using `npm install`
 
