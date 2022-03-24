@@ -11,6 +11,14 @@ export const userReducer = (state = initialState, action) => {
         user,
       };
     }
+    case ACTIONS.SET_USER_INFO: {
+      const info = action.payload;
+      debugger;
+      return {
+        ...state,
+        info,
+      };
+    }
     case ACTIONS.CLEAR_USER: {
       return initialState;
     }

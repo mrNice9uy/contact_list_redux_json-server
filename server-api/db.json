@@ -87,6 +87,43 @@
       "password": "$2a$10$D20tA9ySh6uQ2aLbAhjCM.vwFAzukM75TfayDLhyUIpfdFrQ7OArK",
       "name": "Admin",
       "id": 1
+    },
+    {
+      "email": "user1@user1.com",
+      "password": "$2a$10$cIzRUEduc8sBIBUAC6CU2.khLz6s.Bnn7EVOckS4tgfoUaNFJAOQe",
+      "name": "Walter",
+      "id": 2
+    },
+    {
+      "email": "elon@spacex.com",
+      "password": "$2a$10$2Liov2aTBgY5UfE.Lk33.eD0Yj2wkkHztw5MP5r3AQ3YuXKc7uUPi",
+      "name": "Elon",
+      "id": 3
+    }
+  ],
+  "usersinfo": [
+    {
+      "id": 1,
+      "name": "Admin",
+      "lastName": "admin",
+      "website": "this_one.com",
+      "introduction": "test"
+    },
+    {
+      "name": "Walter",
+      "lastName": "White",
+      "website": "ucancook.com",
+      "introduction": "I am the danger",
+      "id": 2
+    },
+    {
+      "id": 3
+    },
+    {
+      "id": 4
+    },
+    {
+      "id": 5
     }
   ]
 }

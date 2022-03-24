@@ -1,3 +1,12 @@
+export const PROFILE_LAYOUT = {
+  labelCol: {
+    span: 8,
+  },
+  wrapperCol: {
+    span: 8,
+  },
+};
+
 export const REGISTER_FORM_ITEM_LAYOUT = {
   labelCol: {
     xs: { span: 44 },

@@ -33,11 +33,7 @@ const RegistrationForm = () => {
       navigate("/profile");
     } catch (err) {
       if (!err?.response) {
-        openNotification(          
-          "error",
-          "Something is wrong!",
-          "No server response"
-        );
+        openNotification("error", "Something is wrong!", "No server response");
       } else if (err.response?.status === 404) {
         openNotification(
           "error",
@@ -45,11 +41,7 @@ const RegistrationForm = () => {
           err.response?.statusText
         );
       } else {
-        openNotification(
-          "error",
-          err.response?.status,
-          err.response?.data
-        );
+        openNotification("error", err.response?.status, err.response?.data);
       }
     }
   };
