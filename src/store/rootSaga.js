@@ -7,6 +7,7 @@ import {
   editContactById,
   getContacts,
 } from "../api/contacts";
+import { openNotification } from "../utils/utils";
 
 function* fetchContacts(action) {
   try {
@@ -23,6 +24,7 @@ function* fetchContacts(action) {
         message: e.message,
       },
     });
+    openNotification("error", "Error!", e.message);
   }
   yield put(setConnectionInProgressState(false));
 }
@@ -37,6 +39,7 @@ function* addContactData(action) {
       type: ACTIONS.GET_CONTACT_SUCCESS,
       payload: reply,
     });
+    openNotification("success", "Great!", "Contact is added successfully.");
   } catch (e) {
     yield put({
       type: ACTIONS.GET_CONTACT_FAIL,
@@ -44,6 +47,7 @@ function* addContactData(action) {
         message: e.message,
       },
     });
+    openNotification("error", "Error!", e.message);
   }
   yield put(setConnectionInProgressState(false));
 }
@@ -58,6 +62,7 @@ function* deleteContact(action) {
       type: ACTIONS.GET_CONTACT_SUCCESS,
       payload: reply,
     });
+    openNotification("success", "Great!", "Contact is deleted successfully.");
   } catch (e) {
     yield put({
       type: ACTIONS.GET_CONTACT_FAIL,
@@ -65,6 +70,7 @@ function* deleteContact(action) {
         message: e.message,
       },
     });
+    openNotification("error", "Error!", e.message);
   }
   yield put(setConnectionInProgressState(false));
 }
@@ -84,13 +90,16 @@ function* editContact(action) {
       type: ACTIONS.GET_CONTACT_SUCCESS,
       payload: reply,
     });
+    openNotification("success", "Great!", "Contact is updated successfully.");
   } catch (e) {
+    debugger;
     yield put({
       type: ACTIONS.GET_CONTACT_FAIL,
       payload: {
         message: e.message,
       },
     });
+    openNotification("error", "Error!", e.message);
   }
   yield put(setConnectionInProgressState(false));
 }

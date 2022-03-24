@@ -1,22 +1,21 @@
 import { Layout, Menu } from "antd";
 import { isEmpty } from "lodash";
-import { Link, Route, Routes, useLocation } from "react-router-dom";
+import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { Link, Route, Routes, useLocation } from "react-router-dom";
 
 import ContactList from "../Contacts/ContactList";
 import Header from "../Header/Header";
 import Profile from "../Profile/Profile";
 
-import classes from "./MainScreen.module.scss";
 import Login from "../LogIn/Login";
 import RegistrationForm from "../LogIn/Register";
 
-const MainScreen = (props) => {
+const MainScreen = () => {
   const { Content, Sider } = Layout;
 
   const state = useSelector((state) => state);
-  console.log(state);
   const [title, setTitle] = useState("");
   const location = useLocation();
 
@@ -55,7 +54,7 @@ const MainScreen = (props) => {
         </Menu>
       </Sider>
       <Layout>
-        <Header className={classes.header} title={title} user={state.user} />
+        <Header title={title} user={state.user} />
         <Content
           style={{
             margin: "24px 16px",
@@ -74,6 +73,15 @@ const MainScreen = (props) => {
       </Layout>
     </Layout>
   );
+};
+
+MainScreen.propTypes = {
+  state: PropTypes.shape({
+    user: PropTypes.object,
+    contacts: PropTypes.shape({
+      contacts: PropTypes.array,
+    }),
+  }),
 };
 
 export default MainScreen;

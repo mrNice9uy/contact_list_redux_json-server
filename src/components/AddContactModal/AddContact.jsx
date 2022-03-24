@@ -1,46 +1,12 @@
 import { Button, Divider, Form, Input, Modal } from "antd";
 import PropTypes from "prop-types";
 import React, { useCallback } from "react";
+import { FORM_ITEM_LAYOUT, BUTTON_ITEM_LAYOUT, CONTACT_MODAL_RULES } from "../../constants/constants";
 
 const AddContact = (props) => {
   const { modalVisibility, setModalVisibility, submitCallback } = props;
 
   const [form] = Form.useForm();
-
-  const formItemLayout = {
-    labelCol: {
-      span: 4,
-    },
-    wrapperCol: {
-      span: 14,
-    },
-  };
-  const buttonItemLayout = {
-    wrapperCol: {
-      span: 14,
-      offset: 4,
-    },
-  };
-
-  const addContactModalRules = {
-    name: [
-      {
-        required: true,
-        message: "Please input name!",
-        whitespace: true,
-      },
-    ],
-    email: [
-      {
-        type: "email",
-        message: "The input is not valid E-mail!",
-      },
-      {
-        required: true,
-        message: "Please input your E-mail!",
-      },
-    ],
-  };
 
   const onFinish = useCallback(
     (values) => {
@@ -63,19 +29,19 @@ const AddContact = (props) => {
       footer={false}
       onCancel={onCancel}
     >
-      <Form onFinish={onFinish} form={form} {...formItemLayout}>
-        <Form.Item label="Name" name="name" rules={addContactModalRules.name}>
+      <Form onFinish={onFinish} form={form} {...FORM_ITEM_LAYOUT}>
+        <Form.Item label="Name" name="name" rules={CONTACT_MODAL_RULES.name}>
           <Input />
         </Form.Item>
         <Form.Item
           label="Email"
           name="email"
-          rules={addContactModalRules.email}
+          rules={CONTACT_MODAL_RULES.email}
         >
           <Input />
         </Form.Item>
         <Divider />
-        <Form.Item {...buttonItemLayout}>
+        <Form.Item {...BUTTON_ITEM_LAYOUT}>
           <Button key="cancel" id="contact-modal-cancel-btn" onClick={onCancel}>
             Cancel
           </Button>

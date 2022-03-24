@@ -14,14 +14,16 @@ import {
 } from "../../store/actions/contacts";
 import { CONTACTS_COLUMNS } from "../../constants/columns";
 import classes from "./Contacrs.module.scss";
+import { isEmpty } from "lodash";
 
 const mapStateToProps = (state) => ({
   contactList: state.contacts.contacts,
+  user: state.user,
   isConnectionInProgress: state.contacts.isConnectionInProgress,
 });
 
 const ContactList = (props) => {
-  const { contactList, isConnectionInProgress } = props;
+  const { contactList, user, isConnectionInProgress } = props;
   const { Search } = Input;
   const [modalVisibility, setModalVisibility] = useState(false);
   const [editModalVisibility, setContactEditModalVisibility] = useState(false);
@@ -31,15 +33,19 @@ const ContactList = (props) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getContacts());
-  }, [dispatch]);
+    if (!isEmpty(user)) {
+      dispatch(getContacts());
+    }
+  }, [dispatch, user]);
 
   useEffect(() => {
-    setFilteredData(
-      contactList.filter((contact) =>
-        contact.name.toLowerCase().includes(search.toLowerCase())
-      )
-    );
+    if (!isEmpty(contactList)) {
+      setFilteredData(
+        contactList.filter((contact) =>
+          contact.name.toLowerCase().includes(search.toLowerCase())
+        )
+      );
+    }
   }, [contactList, search]);
 
   const setNewId = () => {
@@ -49,7 +55,6 @@ const ContactList = (props) => {
   };
 
   const handleAddContact = (options) => {
-    debugger;
     const { name, email } = options;
     const contactData = {
       id: setNewId(),
@@ -76,7 +81,6 @@ const ContactList = (props) => {
 
   const confirm = useCallback(
     (id) => {
-      message.success("Deleted successfully");
       deleteRecord(id);
     },
     [deleteRecord]
@@ -159,7 +163,7 @@ const ContactList = (props) => {
         submitCallback={handleAddContact}
       />
       <div className={classes.searchBarWrapper}>
-        <Button onClick={() => setModalVisibility(true)}>Add Contact</Button>
+        <Button disabled={isEmpty(user)} onClick={() => setModalVisibility(true)}>Add Contact</Button>
         <Search
           allowClear
           style={{ width: "40%" }}

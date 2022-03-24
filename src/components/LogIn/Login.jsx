@@ -1,18 +1,16 @@
 import { Form, Input, Button, Checkbox } from "antd";
 import axios from "axios";
-import React, { useState } from "react";
+import React from "react";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { setUser } from "../../store/actions/user";
+import { openNotification } from "../../utils/utils";
 
-const Login = (props) => {
-  const [errMsg, setErrMsg] = useState("");
+const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  console.log(errMsg);
   const onFinish = async (values) => {
-    console.log("Success:", values);
     try {
       const response = await axios.post(
         "http://localhost:3006/login",
@@ -25,20 +23,19 @@ const Login = (props) => {
           withCredentials: true,
         }
       );
-      console.log(JSON.stringify(response?.data));
-      console.log(response?.data);
       dispatch(setUser(response?.data));
       navigate("/profile");
     } catch (err) {
       if (!err?.response) {
-        setErrMsg("No server response");
-      } else if (err.response?.status === 400) {
-        console.log("err:", err);
-        setErrMsg("Missing Username or psswrd");
-      } else if (err.response?.status === 401) {
-        setErrMsg("Unauthorizes");
+        openNotification("error", "Something is wrong!", "No server response");
+      } else if (err.response?.status === 404) {
+        openNotification(
+          "error",
+          err.response?.status,
+          err.response?.statusText
+        );
       } else {
-        setErrMsg("Login failed");
+        openNotification("error", err.response?.status, err.response?.data);
       }
     }
   };
@@ -55,7 +52,6 @@ const Login = (props) => {
       initialValues={{ remember: true }}
       onFinish={onFinish}
       onFinishFailed={onFinishFailed}
-      autoComplete="off"
     >
       <Form.Item
         name="email"
