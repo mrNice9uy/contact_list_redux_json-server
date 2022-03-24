@@ -1,14 +1,16 @@
-import { Form, Input, Button, Divider } from 'antd';
+import { faker } from '@faker-js/faker';
+import { Button, Divider, Form, Input } from 'antd';
 import axios from 'axios';
 import { isEmpty, pick } from 'lodash';
-import { faker } from '@faker-js/faker';
 import PropTypes from 'prop-types';
 import React, { useCallback, useEffect } from 'react';
 import { connect, useDispatch } from 'react-redux';
-import Spinner from '../Spinner/Spinner';
+
+import { PROFILE_LAYOUT } from '../../constants/constants';
 import { setUserInfo } from '../../store/actions/user';
 import { openNotification } from '../../utils/utils';
-import { PROFILE_LAYOUT } from '../../constants/constants';
+import Spinner from '../Spinner/Spinner';
+
 import classes from './Profile.module.scss';
 
 const mapStateToProps = state => ({

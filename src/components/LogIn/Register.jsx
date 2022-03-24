@@ -1,11 +1,12 @@
-import { Form, Input, Button } from 'antd';
+import { Button, Form, Input } from 'antd';
 import axios from 'axios';
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+
+import { REGISTER_FORM_ITEM_LAYOUT, TAIL_FORM_ITEM_LAYOUT } from '../../constants/constants';
 import { setUser } from '../../store/actions/user';
 import { openNotification } from '../../utils/utils';
-import { REGISTER_FORM_ITEM_LAYOUT, TAIL_FORM_ITEM_LAYOUT } from '../../constants/constants';
 
 const RegistrationForm = () => {
 	const dispatch = useDispatch();

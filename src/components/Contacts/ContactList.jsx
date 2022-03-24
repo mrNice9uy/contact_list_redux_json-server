@@ -1,20 +1,22 @@
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import { Button, Divider, Input, Popconfirm, Table, message } from 'antd';
+import { isEmpty } from 'lodash';
 import PropTypes from 'prop-types';
 import React, { useCallback, useEffect, useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
-import AddContact from '../AddContactModal/AddContact';
-import EditContact from '../EditContactModal/EditContact';
-import Spinner from '../Spinner/Spinner';
+
+import { CONTACTS_COLUMNS } from '../../constants/columns';
 import {
 	addContact,
 	deleteContactById,
-	updateContactById,
 	getContacts,
+	updateContactById,
 } from '../../store/actions/contacts';
-import { CONTACTS_COLUMNS } from '../../constants/columns';
+import AddContact from '../AddContactModal/AddContact';
+import EditContact from '../EditContactModal/EditContact';
+import Spinner from '../Spinner/Spinner';
+
 import classes from './Contacrs.module.scss';
-import { isEmpty } from 'lodash';
 
 const mapStateToProps = state => ({
 	contactList: state.contacts.contacts,

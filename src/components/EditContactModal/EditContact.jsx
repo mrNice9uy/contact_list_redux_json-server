@@ -4,9 +4,9 @@ import PropTypes from 'prop-types';
 import React, { useCallback, useEffect } from 'react';
 
 import {
-	FORM_ITEM_LAYOUT,
 	BUTTON_ITEM_LAYOUT,
 	CONTACT_MODAL_RULES,
+	FORM_ITEM_LAYOUT,
 } from '../../constants/constants';
 
 const EditContact = props => {

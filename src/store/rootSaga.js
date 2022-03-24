@@ -1,8 +1,10 @@
 import { all, call, put, takeEvery } from 'redux-saga/effects';
-import { ACTIONS } from './actions/actions';
-import { setConnectionInProgressState } from './actions/contacts';
+
 import { addContact, deleteContactById, editContactById, getContacts } from '../api/contacts';
 import { openNotification } from '../utils/utils';
+
+import { ACTIONS } from './actions/actions';
+import { setConnectionInProgressState } from './actions/contacts';
 
 function* fetchContacts(action) {
 	try {

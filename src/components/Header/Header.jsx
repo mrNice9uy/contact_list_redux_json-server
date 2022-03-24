@@ -4,8 +4,10 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { clearUser } from '../../store/actions/user';
+
 import { clearContact } from '../../store/actions/contacts';
+import { clearUser } from '../../store/actions/user';
+
 import classes from './Header.module.scss';
 
 const Header = props => {

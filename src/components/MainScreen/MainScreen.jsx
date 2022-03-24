@@ -7,10 +7,9 @@ import { Link, Route, Routes, useLocation } from 'react-router-dom';
 
 import ContactList from '../Contacts/ContactList';
 import Header from '../Header/Header';
-import Profile from '../Profile/Profile';
-
 import Login from '../LogIn/Login';
 import RegistrationForm from '../LogIn/Register';
+import Profile from '../Profile/Profile';
 
 const MainScreen = () => {
 	const { Content, Sider } = Layout;
