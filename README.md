@@ -1,6 +1,4 @@
-# Getting Started with Create React App
-
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Getting Started
 
 ## Available Scripts
 
@@ -9,6 +7,11 @@ In the project directory, you can run:
 ### `npm run start-server`
 
 Runs the json-server on port 3006.
+
+Endpoints:
+1. [http://localhost:3006/contacts](http://localhost:3006/contacts) to view contact list;
+2. [http://localhost:3006/users](http://localhost:3006/users) to view users;
+3. [http://localhost:3006/usersinfo](http://localhost:3006/usersinfo) to view users info;
 
 ### `npm start`
 
@@ -43,32 +46,22 @@ Instead, it will copy all the configuration files and the transitive dependencie
 
 You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
 
-## Learn More
+## To run the app
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+1. Clone or dowload the repository
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+2. From the project folder install all dependencies via terminal using `npm install`
 
-### Code Splitting
+3. `npm run start-server` to start the server
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+4. `npm start` to start the app
 
-### Analyzing the Bundle Size
+5. Create a new user or login using the following credentials.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+    **e-mail:** `admin@admin.com`; **password:** `password`
 
-### Making a Progressive Web App
+## User interface
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+1. **Homepage:** to login/register
+2. **Profile:** to set the general user info
+3. **Contacts:** to create/read/update/delete contacts

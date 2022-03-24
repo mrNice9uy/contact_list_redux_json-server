@@ -92,7 +92,6 @@ function* editContact(action) {
     });
     openNotification("success", "Great!", "Contact is updated successfully.");
   } catch (e) {
-    debugger;
     yield put({
       type: ACTIONS.GET_CONTACT_FAIL,
       payload: {

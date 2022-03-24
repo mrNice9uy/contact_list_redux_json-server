@@ -8,7 +8,6 @@ export const setUser = (user) => {
 };
 
 export const setUserInfo = (info) => {
-  debugger;
   return {
     type: ACTIONS.SET_USER_INFO,
     payload: info,

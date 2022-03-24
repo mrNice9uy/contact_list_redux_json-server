@@ -18,7 +18,6 @@ const MainScreen = () => {
   const state = useSelector((state) => state);
   const [title, setTitle] = useState("");
   const location = useLocation();
-  console.log(state);
 
   useEffect(() => {
     switch (location.pathname) {

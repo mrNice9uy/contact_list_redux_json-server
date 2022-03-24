@@ -13,7 +13,6 @@ export const userReducer = (state = initialState, action) => {
     }
     case ACTIONS.SET_USER_INFO: {
       const info = action.payload;
-      debugger;
       return {
         ...state,
         info,
